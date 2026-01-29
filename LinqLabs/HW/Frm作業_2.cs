@@ -64,6 +64,8 @@ namespace MyHomeWork
                         select new { p.Name, p.ProductNumber, p.MakeFlag, p.FinishedGoodsFlag, p.SafetyStockLevel, p.ReorderPoint, p.SellStartDate, p.ModifiedDate };
 
                 this.dataGridView1.DataSource = q.ToList();
+                if (q.Count() == 0) { MessageBox.Show("此季查無訂單"); }
+                else { MessageBox.Show($"共{q.Count()}筆"); }
             }
             else if (comboBox2.SelectedIndex == 1)
             {
@@ -72,6 +74,11 @@ namespace MyHomeWork
                         select new { p.Name, p.ProductNumber, p.MakeFlag, p.FinishedGoodsFlag, p.SafetyStockLevel, p.ReorderPoint, p.SellStartDate, p.ModifiedDate };
 
                 this.dataGridView1.DataSource = q.ToList();
+                if (q.Count() == 0) { MessageBox.Show("此季查無訂單"); }
+                else {
+                    if (q.Count() == 0) { MessageBox.Show("此季查無訂單"); }
+                    else { MessageBox.Show($"共{q.Count()}筆"); }
+                }
             }
             else if (comboBox2.SelectedIndex == 2)
             {
@@ -80,6 +87,11 @@ namespace MyHomeWork
                         select new { p.Name, p.ProductNumber, p.MakeFlag, p.FinishedGoodsFlag, p.SafetyStockLevel, p.ReorderPoint, p.SellStartDate, p.ModifiedDate };
 
                 this.dataGridView1.DataSource = q.ToList();
+                if (q.Count() == 0) { MessageBox.Show("此季查無訂單"); }
+                else {
+                    if (q.Count() == 0) { MessageBox.Show("此季查無訂單"); }
+                    else { MessageBox.Show($"共{q.Count()}筆"); }
+                }
             }
             else {
                 var q = from p in awDataSet1.Product
@@ -87,7 +99,14 @@ namespace MyHomeWork
                         select new { p.Name, p.ProductNumber, p.MakeFlag, p.FinishedGoodsFlag, p.SafetyStockLevel, p.ReorderPoint, p.SellStartDate, p.ModifiedDate };
 
                 this.dataGridView1.DataSource = q.ToList();
+                if (q.Count() == 0) { MessageBox.Show("此季查無訂單"); }
+                else {
+                    if (q.Count() == 0) { MessageBox.Show("此季查無訂單"); }
+                    else { MessageBox.Show($"共{q.Count()}筆"); }
+                }
             }
+
+            
             }
     }
 }
