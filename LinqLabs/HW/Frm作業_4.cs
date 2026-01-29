@@ -126,22 +126,71 @@ namespace MyHomeWork
 
         private void button8_Click(object sender, EventArgs e)
         {
-            //Group低中高
+            //Group低中高30,50
+
+            var q = this.NWD.Products.ToList()
+                .GroupBy(p =>p.UnitPrice < 30 ? "低" :
+                      p.UnitPrice < 50 ? "中" : "高")
+                .Select(p => new {價格= p.Key,Count=p.Count(),Products = p.ToList()}).ToList();
+            this.dataGridView1 .DataSource = q;
+            treeView1.Nodes.Clear();
+            foreach (var group in q)
+            {
+                TreeNode parentNode = this.treeView1.Nodes.Add(group.價格);
+                foreach (var item in group.Products) {
+                    parentNode.Nodes.Add($"{item.ProductName} 價格:{item.UnitPrice}");
+                }
+            }
         }
 
         private void button15_Click(object sender, EventArgs e)
         {
             var q = this.NWD.Orders.ToList()
-                .GroupBy(o=>o.OrderDate.Value.Year).Select(o=> new {Year = o.Key,Count = o.Count()}).ToList();
+                .GroupBy(o=>o.OrderDate.Value.Year).Select(o=> new {Year = o.Key,Count = o.Count(),
+                    Orders = o.ToList()
+                }).ToList();
             this.dataGridView1 .DataSource = q;
+            treeView1.Nodes.Clear();
             foreach (var group in q) { 
-            TreeNode
+            TreeNode parentNode = this.treeView1.Nodes.Add(group.Year.ToString());
+                foreach (var item in group.Orders)
+                {
+                    parentNode.Nodes.Add(item.OrderID.ToString());
+                }
             }
         }
 
         private void button10_Click(object sender, EventArgs e)
         {
+            var q = this.NWD.Orders.ToList()
+                .GroupBy(o => new { o.OrderDate.Value.Year, o.OrderDate.Value.Month })
+        .Select(group => new
+        {
+            Year = group.Key.Year,
+            Month = group.Key.Month,
+            Count = group.Count(),
+            Orders = group.ToList()
+        }).ToList();
+            this.dataGridView1.DataSource = q;
+            treeView1.Nodes.Clear();
+            foreach (var group in q)
+            {
+                TreeNode parentNode = this.treeView1.Nodes
+                    .Cast<TreeNode>()
+                    .FirstOrDefault(n => n.Text == group.Year.ToString());
 
+                if (parentNode == null)
+                {
+                    parentNode = this.treeView1.Nodes.Add(group.Year.ToString());
+                }
+
+                TreeNode monthNode = parentNode.Nodes.Add($"{group.Month}");
+
+                foreach (var item in group.Orders)
+                {
+                    monthNode.Nodes.Add(item.OrderID.ToString());
+                }
+            }
         }
     }
 }
